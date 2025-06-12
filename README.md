@@ -15,14 +15,14 @@ Fuente primaria: SEPA
 ## FASE 2: MANIPULACIÓN DE DATOS
 ### Estructura Original
 Los archivos descargados se organizan de la siguiente manera:
-> Una carpeta por cada día de la semana (Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo).
-> Dentro de c/u, se encuentra otra carpeta con la última fecha registrada.
-> Dentro hay entre 85 y 87 archivos .csv donde se encuentran por separado comercios, sucursales y productos. Presentando un total de 547 archivos.
-> Cada archivo comercio.csv se corresponde a un único comercio, al igual que los sucursales.csv y los productos.csv, responden a un mismo comercio.
+• Una carpeta por cada día de la semana (Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo).
+• Dentro de c/u, se encuentra otra carpeta con la última fecha registrada.
+• Dentro hay entre 85 y 87 archivos .csv donde se encuentran por separado comercios, sucursales y productos. Presentando un total de 547 archivos.
+• Cada archivo comercio.csv se corresponde a un único comercio, al igual que los sucursales.csv y los productos.csv, responden a un mismo comercio.
 
-### Resolver
+### PREPARACIÓN DE DATOS EN PYTHON
 Se requiere unificación de los datos antes de pasar a la etapa de limpieza.
-> Los archivos no pueden coexistir en una misma carpeta por su formato original ya que tienen el mismo nombre.
+• Los archivos no pueden coexistir en una misma carpeta por su formato original ya que tienen el mismo nombre.
 
 Se define una función utilizando Python para automatizar la copia de los archivos en otra carpeta reemplazando cada nombre y así facilitar su próxima unificación por carpeta en Power BI.
 
@@ -51,3 +51,11 @@ def copiar_y_renombrar(origen, destino):
 
 copiar_y_renombrar(origen_base, destino_base)
 
+### TRANSFORACIÓN DE DATOS EN POWER BI
+Se inicia con una tabla de 9 columas y 658 filas.
+
+• Se quitan filas con valores "null" y null, 
+• Se eliminan columnas Source.Name, comercio_ultima_actualizacion, comercio_version_sepa,
+• Se normalizan los valores de las columnas comercio_razon_social, comercio_bandera_nombre, comercio_bandera_url
+
+Se finaliza con una tabla de 6 columnas y 44 filas.
