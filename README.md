@@ -1,37 +1,46 @@
-# analisis_preciosclaros
+# 🛰️ Proyecto: Análisis de Precios Claros
 
-## OBJETIVO
-Proyecto personal exploratorio
+## 📌 Objetivo
+Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA*, con el fin de practicar recolección, limpieza, transformación y visualización de datos a gran escala, utilizando herramientas como Python y Power BI.
 
-## FASE 1: RECOLECCIÓN DE DATOS
-### Origen
-Precios Claros - Base SEPA
-SEPA (Sistema Electrónico de Publicidad de Precios Argentinos) reúne los precios de comercios minoristas (grandes establecimientos) de más de 70 mil productos en todo el país, lo que de forma agregada genera una base diaria de aproximadamente 12 millones de registros. 
-Temas: Ecomomía y Finanzas
-Licencia: Creative Commons Attribution 4.0
-Página de referencia: https://datos.produccion.gob.ar/dataset/sepa-precios
-Fuente primaria: SEPA
+---
 
-## FASE 2: MANIPULACIÓN DE DATOS
-### Estructura Original
-Los archivos descargados se organizan de la siguiente manera:
-• Una carpeta por cada día de la semana (Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo).
-• Dentro de c/u, se encuentra otra carpeta con la última fecha registrada.
-• Dentro hay entre 85 y 87 archivos .csv donde se encuentran por separado comercios, sucursales y productos. Presentando un total de 547 archivos.
-• Cada archivo comercio.csv se corresponde a un único comercio, al igual que los sucursales.csv y los productos.csv, responden a un mismo comercio.
+## 📦 Fase 1: Recolección de Datos
 
-### PREPARACIÓN DE DATOS EN PYTHON
-Se requiere unificación de los datos antes de pasar a la etapa de limpieza.
-• Los archivos no pueden coexistir en una misma carpeta por su formato original ya que tienen el mismo nombre.
+### 🔍 Fuente
+- **Nombre:** Precios Claros - Base SEPA  
+- **Institución:** Secretaría de Comercio Interior (Argentina)  
+- **Descripción:** Sistema Electrónico de Publicidad de Precios Argentinos. Reúne información diaria de más de 70.000 productos en grandes comercios del país.  
+- **Frecuencia:** Diaria  
+- **Volumen estimado:** ~12 millones de registros por día  
+- **Licencia:** [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)  
+- **Acceso al dataset:** [Portal de Datos Abiertos](https://datos.produccion.gob.ar/dataset/sepa-precios)
 
-Se define una función utilizando Python para automatizar la copia de los archivos en otra carpeta reemplazando cada nombre y así facilitar su próxima unificación por carpeta en Power BI.
+---
 
+## 🛠️ Fase 2: Manipulación y Preparación de Datos
+
+### 📂 Estructura de Archivos Originales
+- Los archivos están organizados por día de la semana.
+- Dentro de cada día, hay una carpeta con la fecha específica.
+- Cada carpeta contiene entre 85 y 87 archivos `.csv`, organizados por tipo de entidad:
+  - `comercios.csv`
+  - `sucursales.csv`
+  - `productos.csv`
+- Cada conjunto pertenece a un comercio distinto, pero repiten nombre, lo cual impide su manipulación directa en conjunto.
+
+---
+
+### 🧮 Automatización con Python: Renombrado y Unificación
+
+Para facilitar el posterior análisis, se desarrolló un script en Python que copia y renombra todos los archivos agregando prefijos con el día y la fecha, evitando colisiones por nombres duplicados:
+
+```python
 import os
 import shutil
 
 origen_base = 'D:/Archivos/1. datasets/Precios Claros - Base SEPA'
 destino_base = 'D:/Archivos/1. datasets/Precios Claros - Base SEPA/00_ArchivosRenombradosUnificados'
-
 os.makedirs(destino_base, exist_ok=True)
 
 def copiar_y_renombrar(origen, destino):
@@ -50,12 +59,24 @@ def copiar_y_renombrar(origen, destino):
                             print(f"Copiado: {ruta_original} → {ruta_destino}")
 
 copiar_y_renombrar(origen_base, destino_base)
+```
+### 🔄 Transformación en Power BI
 
-### TRANSFORACIÓN DE DATOS EN POWER BI
-Se inicia con una tabla de 9 columas y 658 filas.
+Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para iniciar el proceso de limpieza y transformación.
 
-• Se quitan filas con valores "null" y null, 
-• Se eliminan columnas Source.Name, comercio_ultima_actualizacion, comercio_version_sepa,
-• Se normalizan los valores de las columnas comercio_razon_social, comercio_bandera_nombre, comercio_bandera_url
+#### 🧹 Tabla consolidada inicial: COMERCIOS
+- **Filas:** 658  
+- **Columnas:** 9
 
-Se finaliza con una tabla de 6 columnas y 44 filas.
+#### 🔧 Transformaciones aplicadas:
+- Eliminación de filas con valores `null` o el string `"null"`.
+- Eliminación de columnas innecesarias:
+  - `Source.Name`
+  - `comercio_ultima_actualizacion`
+  - `comercio_version_sepa`
+- Normalización de texto:
+  - Corrección de mayúsculas en `comercio_razon_social`, `comercio_bandera_nombre`, `comercio_bandera_url`.
+  - Se reemplazan y normalizan valores en la columna `sucursales_localidad`.
+
+
+
