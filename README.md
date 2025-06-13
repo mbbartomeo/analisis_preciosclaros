@@ -77,6 +77,5 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
 - Normalización de texto:
   - Corrección de mayúsculas en `comercio_razon_social`, `comercio_bandera_nombre`, `comercio_bandera_url`.
   - Se reemplazan y normalizan valores en la columna `sucursales_localidad`.
-
-
+- Tabla final: 44 filas, 6 columnas.
 
