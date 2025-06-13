@@ -64,7 +64,8 @@ copiar_y_renombrar(origen_base, destino_base)
 
 Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para iniciar el proceso de limpieza y transformación.
 
-#### 🧹 Tabla consolidada inicial: COMERCIOS
+### 🗒️ Tabla Comercios
+#### 🧹 Tabla consolidada inicial: 
 - **Filas:** 658  
 - **Columnas:** 9
 
@@ -75,7 +76,9 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
   - `comercio_ultima_actualizacion`
   - `comercio_version_sepa`
 - Normalización de texto:
-  - Corrección de mayúsculas en `comercio_razon_social`, `comercio_bandera_nombre`, `comercio_bandera_url`.
-  - Se reemplazan y normalizan valores en la columna `sucursales_localidad`.
-- Tabla final: 44 filas, 6 columnas.
+  - Corrección de formato de valores en `comercio_razon_social`, `comercio_bandera_nombre`, `comercio_bandera_url`, `sucursales_localidad`.
+
+#### ✅ Resultado final: 
+- **Filas:** 44  
+- **Columnas:** 6
 
