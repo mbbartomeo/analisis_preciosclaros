@@ -64,21 +64,52 @@ copiar_y_renombrar(origen_base, destino_base)
 
 Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para iniciar el proceso de limpieza y transformación.
 
-### 🗒️ Tabla Comercios
+### 🗒️ TABLA COMERCIOS
 #### 🧹 Tabla consolidada inicial: 
 - **Filas:** 658  
 - **Columnas:** 9
 
 #### 🔧 Transformaciones aplicadas:
 - Eliminación de filas con valores `null` o el string `"null"`.
-- Eliminación de columnas innecesarias:
+- Eliminación de columnas innecesarias para el análisis:
   - `Source.Name`
   - `comercio_ultima_actualizacion`
   - `comercio_version_sepa`
+  - `comercio_bandera_url`
+  - `comercio_cuit`
 - Normalización de texto:
-  - Corrección de formato de valores en `comercio_razon_social`, `comercio_bandera_nombre`, `comercio_bandera_url`, `sucursales_localidad`.
+  - Corrección de formato de valores en `comercio_razon_social`, `comercio_bandera_nombre`.
 
 #### ✅ Resultado final: 
 - **Filas:** 44  
-- **Columnas:** 6
+- **Columnas:** 4
+
+### 🗒️ TABLA SUCURSALES
+#### 🧹 Tabla consolidada inicial: 
+- **Filas:** 20619  
+- **Columnas:** 22
+
+#### 🔧 Transformaciones aplicadas:
+- Eliminación de filas con valores `null` o el string `"null"`.
+- Eliminación de columnas innecesarias para el análisis:
+  - `Source.Name`
+  - `sucursales_domingo_horario_atencion`
+  - `sucursales_lunes_horario_atencion`
+  - `sucursales_martes_horario_atencion`
+  - `sucursales_miercoles_horario_atencion` 
+  - `sucursales_jueves_horario_atencion`
+  - `sucursales_viernes_horario_atencion` 
+  - `sucursales_sabado_horario_atencion`
+  - `sucursales_nombre`
+- Normalización de valores con notación científica:
+  - `sucursal_lat`
+  - `sucursal_long`
+- Normalización de texto:
+  - Corrección de formato de valores en `sucursales_tipo`, `sucursales_localidad`
+- Reemplazo de valores: 
+  - `sucursales_provincia`
+
+#### ✅ Resultado final: 
+- **Filas:** 20259  
+- **Columnas:** 8
 
