@@ -123,7 +123,7 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
 #### 🔧 Tratamiento inicial:
 - Separación manual de archivos por lotes para tratamiento idividual
 - Se utiliza Google Colab + Google Drive para identificar y unificar archivos csv con la cantidad de columnas correctas.
-```
+```python
 # Dar acceso a Drive
 from google.colab import drive
 drive.mount('/content/drive')
