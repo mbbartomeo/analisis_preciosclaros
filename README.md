@@ -173,7 +173,7 @@ for archivo in archivos:
 ```
 ![image](https://github.com/user-attachments/assets/3a9e0fa5-0ae6-48ad-8c51-ce74f24777ee)
 
-```
+```python
 # Exportamos el DataFrame con los datos correctos
 df_unificado.to_csv('/content/drive/MyDrive/Productos/Limpios/lunes_lote01.csv', index=False, encoding='utf-8')
 
