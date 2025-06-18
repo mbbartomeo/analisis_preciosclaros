@@ -200,6 +200,6 @@ print("✅ Archivos guardados: limpio y errores.")
 - Normalización de texto:
   - Corrección de formato de valores en `productos_unidad_medida_referencia`.
 - Reemplazo de valores: 
-  - Los valores de las columnas `productos_precio_referencia`,	`productos_cantidad_referencia`,	`productos_unidad_medida_referencia` serán tratados como *N/A* siempre que no exista un precio de referencia de producto.
+  - Los valores de las columnas `productos_precio_referencia`,	`productos_cantidad_referencia`,	`productos_unidad_medida_referencia` serán tratados como N/A siempre que no exista un precio de referencia de producto.
  
 ⚠️ Las columnas: `id_producto`,`productos_descripcion`,`productos_cantidad_presentacion`,	`productos_unidad_medida_presentacion`y `productos_marca` serán parte de la estructura de una nueva **Tabla Productos** utilizando Google Sheets.
