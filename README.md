@@ -39,8 +39,8 @@ Para facilitar el posterior análisis, se desarrolló un script en Python que co
 import os
 import shutil
 
-origen_base = 'D:/Archivos/1. datasets/Precios Claros - Base SEPA'
-destino_base = 'D:/Archivos/1. datasets/Precios Claros - Base SEPA/00_ArchivosRenombradosUnificados'
+origen_base = 'D:/Archivos/1. datasets/Precios Claros'
+destino_base = 'D:/Archivos/1. datasets/Precios Claros/Unificados'
 os.makedirs(destino_base, exist_ok=True)
 
 def copiar_y_renombrar(origen, destino):
@@ -133,7 +133,7 @@ import pandas as pd
 import os
 
 # Definir la ruta de la carpeta en Google Drive que contiene los CSV del lote
-ruta_lote = '/content/drive/MyDrive/Productos/1.lote_lunes_01/'
+ruta_lote = '/content/drive/MyDrive/Productos/1.lote_lunes_0x/'
 archivos = os.listdir(ruta_lote) # Listar los archivos en la carpeta
 
 # Definir cuántas columnas debe tener un archivo CSV válido
@@ -187,7 +187,8 @@ print("✅ Archivos guardados: limpio y errores.")
 
 - Se determina la tabla actual como **CatálogoComercial** manteniendo las columnas:
   - `id_comercio`
-  - `id_bandera	id_sucursal`
+  - `id_bandera`
+  - `id_sucursal`
   - `id_producto`
   - `productos_precio_lista`
   - `productos_precio_referencia`
@@ -201,5 +202,71 @@ print("✅ Archivos guardados: limpio y errores.")
   - Corrección de formato de valores en `productos_unidad_medida_referencia`.
 - Reemplazo de valores: 
   - Los valores de las columnas `productos_precio_referencia`,	`productos_cantidad_referencia`,	`productos_unidad_medida_referencia` serán tratados como N/A siempre que no exista un precio de referencia de producto.
+- Eliminación de filas con metadata.
  
-⚠️ Las columnas: `id_producto`,`productos_descripcion`,`productos_cantidad_presentacion`,	`productos_unidad_medida_presentacion`y `productos_marca` serán parte de la estructura de una nueva **Tabla Productos** utilizando Google Sheets.
+⚠️ Las columnas: `id_producto`,`productos_descripcion`,`productos_cantidad_presentacion`,	`productos_unidad_medida_presentacion`y `productos_marca` serán parte de la estructura de una nueva **Tabla Productos**.
+
+```python
+import pandas as pd
+import os
+
+# Ruta al archivo CSV a procesar
+archivo = r'D:\Archivos\Proyecto_PreciosClaros\datos\Productos\lunes_lote0x.csv' 
+
+# Leer archivo
+df = pd.read_csv(archivo, sep=',', encoding='utf-8', low_memory=False)
+
+# Eliminar filas con metadata (donde id_producto no sea numérico)
+df = df[pd.to_numeric(df['id_producto'], errors='coerce').notnull()]
+
+# Convertir a numérico para aplicar la lógica de precios de referencia
+df['productos_precio_referencia'] = pd.to_numeric(df['productos_precio_referencia'], errors='coerce')
+
+# Reemplazo por NaN si productos_precio_referencia está vacío o es 0
+cond = (df['productos_precio_referencia'].isna()) | (df['productos_precio_referencia'] == 0)
+df.loc[cond, ['productos_precio_referencia',
+              'productos_cantidad_referencia',
+              'productos_unidad_medida_referencia']] = pd.NA
+
+# Normalizar a mayúsculas ignorando valores NaN 
+df['productos_descripcion'] = df['productos_descripcion'].astype(str).str.upper()
+
+df['productos_unidad_medida_referencia'] = df['productos_unidad_medida_referencia'].astype(str).str.upper()
+
+df['productos_unidad_medida_presentacion'] = df['productos_unidad_medida_presentacion'].where(
+    df['productos_unidad_medida_presentacion'].notna(),
+    pd.NA
+).astype(str).str.upper()
+
+df['productos_marca'] = df['productos_marca'].astype(str).str.upper()
+
+# Reemplazar "UNIDAD" por "UN" para estandarizar nomenclatura
+df['productos_unidad_medida_referencia'] = df['productos_unidad_medida_referencia'].replace('UNIDAD', 'UN')
+df['productos_unidad_medida_presentacion'] = df['productos_unidad_medida_presentacion'].replace('UNIDAD', 'UN')
+
+# Crear CatálogoComercial
+cols_catálogo = [
+    'id_comercio', 'id_bandera', 'id_sucursal', 'id_producto',
+    'productos_precio_lista', 'productos_precio_referencia',
+    'productos_cantidad_referencia', 'productos_unidad_medida_referencia',
+    'productos_precio_unitario_promo1', 'productos_leyenda_promo1',
+    'productos_precio_unitario_promo2', 'productos_leyenda_promo2'
+]
+df_catalogo = df[cols_catálogo]
+
+# Crear Productos
+cols_productos = [
+    'id_producto', 'productos_descripcion',
+    'productos_cantidad_presentacion', 'productos_unidad_medida_presentacion',
+    'productos_marca'
+]
+df_productos = df[cols_productos]
+
+# Exportar a archivos nuevos
+lote_x = os.path.splitext(archivo)[0] 
+
+df_catalogo.to_csv(f"{lote_x}_CatalogoComercial.csv", index=False)
+df_productos.to_csv(f"{lote_x}_Productos.csv", index=False)
+
+print("✅ Archivos exportados correctamente.")
+```
