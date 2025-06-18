@@ -122,7 +122,7 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
 
 #### 🔧 Tratamiento inicial:
 - Separación manual de archivos por lotes para tratamiento idividual
-- Se utiliza Google Colab + Google Drive para identificar y unificar archivos csv con la cantidad de columnas correctas.
+- Se utiliza Google Colab + Python + Google Drive para identificar y unificar archivos csv con la cantidad de columnas correctas.
 ```python
 # Dar acceso a Drive
 from google.colab import drive
@@ -183,3 +183,23 @@ df_errores.to_csv('/content/drive/MyDrive/Productos/Errores/lunes_lote01.csv', i
 # Mensaje final de confirmación
 print("✅ Archivos guardados: limpio y errores.")
 ```
+⚠️ La estructura de la tabla **Productos** funciona como catálogo de los comercios/sucursales. Necesita atomización de datos para facilitar su mantenimiento, escalado y consumo de memoria.
+
+- Se determina la tabla actual como **CatálogoComercial** manteniendo las columnas:
+  - `id_comercio`
+  - `id_bandera	id_sucursal`
+  - `id_producto`
+  - `productos_precio_lista`
+  - `productos_precio_referencia`
+  - `productos_cantidad_referencia`
+  - `productos_unidad_medida_referencia`
+  - `productos_precio_unitario_promo1`
+  - `productos_leyenda_promo1`
+  - `productos_precio_unitario_promo2`
+  - `productos_leyenda_promo2`
+- Normalización de texto:
+  - Corrección de formato de valores en `productos_unidad_medida_referencia`.
+- Reemplazo de valores: 
+  - Los valores de las columnas `productos_precio_referencia`,	`productos_cantidad_referencia`,	`productos_unidad_medida_referencia` serán tratados como *N/A* siempre que no exista un precio de referencia de producto.
+ 
+⚠️ Las columnas: `id_producto`,`productos_descripcion`,`productos_cantidad_presentacion`,	`productos_unidad_medida_presentacion`y `productos_marca` serán parte de la estructura de una nueva **Tabla Productos** utilizando Google Sheets.
