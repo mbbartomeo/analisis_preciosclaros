@@ -35,31 +35,8 @@ Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA*, con
 
 Para facilitar el posterior análisis, se desarrolló un script en Python que copia y renombra todos los archivos agregando prefijos con el día y la fecha, evitando colisiones por nombres duplicados:
 
-```python
-import os
-import shutil
+![renombrar](https://github.com/user-attachments/assets/e313df96-91bd-4ea8-985e-37a60d93a224)
 
-origen_base = 'D:/Archivos/1. datasets/Precios Claros'
-destino_base = 'D:/Archivos/1. datasets/Precios Claros/Unificados'
-os.makedirs(destino_base, exist_ok=True)
-
-def copiar_y_renombrar(origen, destino):
-    for carpeta_dia in os.listdir(origen):
-        ruta_dia = os.path.join(origen, carpeta_dia)
-        if os.path.isdir(ruta_dia):
-            for carpeta_negocio in os.listdir(ruta_dia):
-                ruta_negocio = os.path.join(ruta_dia, carpeta_negocio)
-                if os.path.isdir(ruta_negocio):
-                    for archivo in os.listdir(ruta_negocio):
-                        if archivo.endswith('.csv'):
-                            ruta_original = os.path.join(ruta_negocio, archivo)
-                            nuevo_nombre = f"{carpeta_dia}_{carpeta_negocio}_{archivo}"
-                            ruta_destino = os.path.join(destino, nuevo_nombre)
-                            shutil.copy2(ruta_original, ruta_destino)
-                            print(f"Copiado: {ruta_original} → {ruta_destino}")
-
-copiar_y_renombrar(origen_base, destino_base)
-```
 ### 🔄 Transformación en Power BI
 
 Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para iniciar el proceso de limpieza y transformación.
@@ -92,15 +69,12 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
 #### 🔧 Transformaciones aplicadas:
 - Eliminación de filas con valores `null` o el string `"null"`.
 - Eliminación de columnas innecesarias para el análisis:
-  - `Source.Name`
-  - `sucursales_domingo_horario_atencion`
-  - `sucursales_lunes_horario_atencion`
-  - `sucursales_martes_horario_atencion`
-  - `sucursales_miercoles_horario_atencion` 
-  - `sucursales_jueves_horario_atencion`
-  - `sucursales_viernes_horario_atencion` 
-  - `sucursales_sabado_horario_atencion`
   - `sucursales_nombre`
+  - `sucursales_calle`
+  - `sucursales_numero`
+  - `sucursales_observaciones`
+  - `sucursales_barrio`
+  - `sucursales_codigo_postal`
 - Normalización de valores con notación científica:
   - `sucursal_lat`
   - `sucursal_long`
@@ -108,6 +82,15 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
   - Corrección de formato de valores en `sucursales_tipo`, `sucursales_localidad`
 - Reemplazo de valores: 
   - `sucursales_provincia`
+- Corrección y normalización de horarios:
+  - Las celdas con horarios tienen diferentes formatos y rangos que no permiten su correcta segmentación.
+
+  ![limpiar_horarios](https://github.com/user-attachments/assets/a1b27cb5-6f54-4c24-906a-c259d14aa667)
+  
+  - Los horarios limpios se categorizan según la cantidad de horas trabajadas:
+    - Jornada Normal: ≤ 8 hs 
+    - Jornada Doble: > 8 hs y ≤ 11 hs
+    - Jornada Extendida: > 11 hs
 
 #### ✅ Resultado final: 
 - **Filas:** 20259  
@@ -123,66 +106,11 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
 #### 🔧 Tratamiento inicial:
 - Separación manual de archivos por lotes para tratamiento idividual
 - Se utiliza Google Colab + Python + Google Drive para identificar y unificar archivos csv con la cantidad de columnas correctas.
-```python
-# Dar acceso a Drive
-from google.colab import drive
-drive.mount('/content/drive')
 
-# Importar las bibliotecas necesarias
-import pandas as pd
-import os
+![unificar](https://github.com/user-attachments/assets/3ca91ebc-70b5-4861-96bc-85e16f5a8ebe)
 
-# Definir la ruta de la carpeta en Google Drive que contiene los CSV del lote
-ruta_lote = '/content/drive/MyDrive/Productos/1.lote_lunes_0x/'
-archivos = os.listdir(ruta_lote) # Listar los archivos en la carpeta
-
-# Definir cuántas columnas debe tener un archivo CSV válido
-columnas_esperadas = 17
-
-# Crear dos DataFrame vacíos
-df_unificado = pd.DataFrame() # df para archivos correctos
-df_errores = pd.DataFrame() # df para archivos con errores
-
-# Iterar sobre cada archivo .csv en la carpeta
-for archivo in archivos:
-  if archivo.endswith('.csv'):
-    ruta_completa = os.path.join(ruta_lote,archivo) # Obtiene ruta completa al archivo
-    try:
-      # Se lee el csv forzando que todas las columnas sean tratadas como texto
-      df = pd.read_csv(
-          ruta_completa,
-          encoding='utf-8',
-          sep='|',
-          low_memory=False,
-          dtype=str
-          )
-      # Se verifica si el archivo tiene la cantidad correcta de columnas
-      if df.shape[1] == columnas_esperadas:
-        # Si el archivo es correcto se agrega al DataFrame unificado
-        df_unificado = pd.concat([df_unificado,df], ignore_index = True)
-        print(f'✅ OK: {archivo} ({df.shape[0]} filas)')
-      else:
-        # Si el archivo tiene errores se agrega al DataFrame de errores
-        df['archivo_origen'] = archivo # Se agrega columna para saber de dónde provino
-        df_errores = pd.concat([df_errores,df], ignore_index = True)
-        print(f'⚠️ ERROR: {archivo} con {df.shape[1]} columnas')
-
-    except Exception as e:
-      # Si ocurre un error al leer el archivo, se informa mediante excepción
-            print(f'❌ Fallo en archivo {archivo}: {e}')
-```
 ![image](https://github.com/user-attachments/assets/3a9e0fa5-0ae6-48ad-8c51-ce74f24777ee)
 
-```python
-# Exportamos el DataFrame con los datos correctos
-df_unificado.to_csv('/content/drive/MyDrive/Productos/Limpios/lunes_lote01.csv', index=False, encoding='utf-8')
-
-# Exportamos el DataFrame con los errores de estructura
-df_errores.to_csv('/content/drive/MyDrive/Productos/Errores/lunes_lote01.csv', index=False, encoding='utf-8')
-
-# Mensaje final de confirmación
-print("✅ Archivos guardados: limpio y errores.")
-```
 ⚠️ La estructura de la tabla **Productos** funciona como catálogo de los comercios/sucursales. Necesita atomización de datos para facilitar su mantenimiento, escalado y consumo de memoria.
 
 - Se determina la tabla actual como **CatálogoComercial** manteniendo las columnas:
@@ -206,127 +134,13 @@ print("✅ Archivos guardados: limpio y errores.")
  
 ⚠️ Las columnas: `id_producto`,`productos_descripcion`,`productos_cantidad_presentacion`,	`productos_unidad_medida_presentacion`y `productos_marca` serán parte de la estructura de una nueva **Tabla Productos**.
 
-```python
-import pandas as pd
-import os
+![limpieza_y_segmentacion](https://github.com/user-attachments/assets/c183c8a4-a238-452a-9efb-f224c1c2d35b)
 
-# Ruta al archivo CSV a procesar
-archivo = r'D:\Archivos\Proyecto_PreciosClaros\datos\Productos\lunes_lote0x.csv' 
-
-# Leer archivo
-df = pd.read_csv(archivo, sep=',', encoding='utf-8', low_memory=False)
-
-# Eliminar filas con metadata (donde id_producto no sea numérico)
-df = df[pd.to_numeric(df['id_producto'], errors='coerce').notnull()]
-
-# Convertir a numérico para aplicar la lógica de precios de referencia
-df['productos_precio_referencia'] = pd.to_numeric(df['productos_precio_referencia'], errors='coerce')
-
-# Reemplazo por NaN si productos_precio_referencia está vacío o es 0
-cond = (df['productos_precio_referencia'].isna()) | (df['productos_precio_referencia'] == 0)
-df.loc[cond, ['productos_precio_referencia',
-              'productos_cantidad_referencia',
-              'productos_unidad_medida_referencia']] = pd.NA
-
-# Normalizar a mayúsculas ignorando valores NaN 
-df['productos_descripcion'] = df['productos_descripcion'].astype(str).str.upper()
-
-df['productos_unidad_medida_referencia'] = df['productos_unidad_medida_referencia'].astype(str).str.upper()
-
-df['productos_unidad_medida_presentacion'] = df['productos_unidad_medida_presentacion'].where(
-    df['productos_unidad_medida_presentacion'].notna(),
-    pd.NA
-).astype(str).str.upper()
-
-df['productos_marca'] = df['productos_marca'].astype(str).str.upper()
-
-# Reemplazar "UNIDAD" por "UN" para estandarizar nomenclatura
-df['productos_unidad_medida_referencia'] = df['productos_unidad_medida_referencia'].replace('UNIDAD', 'UN')
-df['productos_unidad_medida_presentacion'] = df['productos_unidad_medida_presentacion'].replace('UNIDAD', 'UN')
-
-# Crear CatálogoComercial
-cols_catálogo = [
-    'id_comercio', 'id_bandera', 'id_sucursal', 'id_producto',
-    'productos_precio_lista', 'productos_precio_referencia',
-    'productos_cantidad_referencia', 'productos_unidad_medida_referencia',
-    'productos_precio_unitario_promo1', 'productos_leyenda_promo1',
-    'productos_precio_unitario_promo2', 'productos_leyenda_promo2'
-]
-df_catalogo = df[cols_catálogo]
-
-# Crear Productos
-cols_productos = [
-    'id_producto', 'productos_descripcion',
-    'productos_cantidad_presentacion', 'productos_unidad_medida_presentacion',
-    'productos_marca'
-]
-df_productos = df[cols_productos]
-
-# Exportar a archivos nuevos
-lote_x = os.path.splitext(archivo)[0] 
-
-df_catalogo.to_csv(f"{lote_x}_CatalogoComercial.csv", index=False)
-df_productos.to_csv(f"{lote_x}_Productos.csv", index=False)
-
-print("✅ Archivos exportados correctamente.")
-```
 - Unificación de archivos csv en carpeta Productos y carpeta CatálogoComercial después de la primer etapa de limpieza.
 - Eliminación de duplicados y reporte de estado final de las tablas.
 
-```python
-import pandas as pd
-import os
-import glob
+![eliminar_duplicados](https://github.com/user-attachments/assets/dd6dc25a-00ac-4f0f-965d-1f541ba1a43f)
 
-# Rutas a las carpetas
-ruta_productos = r'D:\Archivos\Proyecto_PreciosClaros\datos\Productos'
-ruta_catalogo = r'D:\Archivos\Proyecto_PreciosClaros\datos\CatálogoComercial'
-
-# Función para unir archivos CSV y reportar duplicados
-def unir_csv_y_reportar(ruta_carpeta, nombre_salida, columnas_duplicadas):
-    archivos = glob.glob(os.path.join(ruta_carpeta, '*.csv'))
-    print(f"📁 Procesando carpeta: {ruta_carpeta}")
-    print(f"🔎 Archivos encontrados: {len(archivos)}")
-    
-    dataframes = []
-    for archivo in archivos:
-        df = pd.read_csv(archivo, low_memory=False)
-        dataframes.append(df)
-    
-    df_unido = pd.concat(dataframes, ignore_index=True)
-    total_filas = len(df_unido)
-
-    df_sin_duplicados = df_unido.drop_duplicates(subset=columnas_duplicadas, keep='first')
-    total_final = len(df_sin_duplicados)
-    duplicados_eliminados = total_filas - total_final
-
-    print(f"🧮 Total de filas unificadas: {total_filas}")
-    print(f"❌ Duplicados eliminados: {duplicados_eliminados}")
-    print(f"✅ Filas finales limpias: {total_final}\n")
-
-    df_sin_duplicados.to_csv(f'{nombre_salida}_Unificado.csv', index=False)
-
-    return {
-        'archivos': len(archivos),
-        'filas_originales': total_filas,
-        'duplicados': duplicados_eliminados,
-        'filas_finales': total_final
-    }
-
-# Procesar Productos
-reporte_productos = unir_csv_y_reportar(
-    ruta_productos,
-    'Productos',
-    ['id_producto']
-)
-
-# Procesar CatálogoComercial
-reporte_catalogo = unir_csv_y_reportar(
-    ruta_catalogo,
-    'CatalogoComercial',
-    ['id_comercio', 'id_sucursal', 'id_producto']
-)
-```
 ![image](https://github.com/user-attachments/assets/b8dfe7da-b9b5-487e-9676-8b0000421a10)
 
 #### ✅ Resultado final: 
