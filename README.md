@@ -92,9 +92,11 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
     - Jornada Doble: > 8 hs y ≤ 11 hs
     - Jornada Extendida: > 11 hs
 
+![calcular_categorizar_jornadas](https://github.com/user-attachments/assets/6b163e23-614d-411e-a2c7-669ee58ce246)
+
 #### ✅ Resultado final: 
 - **Filas:** 20259  
-- **Columnas:** 8
+- **Columnas:** 14
 
 ### 🗒️ TABLA PRODUCTOS
 #### 🧹 Datos iniciales: 
