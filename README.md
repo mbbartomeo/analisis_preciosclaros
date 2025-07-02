@@ -94,8 +94,10 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
 
 ![calcular_categorizar_jornadas](https://github.com/user-attachments/assets/6b163e23-614d-411e-a2c7-669ee58ce246)
 
+- Eliminación de duplicados
+ 
 #### ✅ Resultado final: 
-- **Filas:** 20259  
+- **Filas:** 3.118 
 - **Columnas:** 14
 
 ### 🗒️ TABLA PRODUCTOS
