@@ -31,14 +31,13 @@ Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA*, con
 
 ---
 
-### 🧮 Automatización con Python: Renombrado y Unificación
+### 🐍 Python: Renombrado y Unificación
 
 Para facilitar el posterior análisis, se desarrolló un script en Python que copia y renombra todos los archivos agregando prefijos con el día y la fecha, evitando colisiones por nombres duplicados:
 
 ![renombrar](https://github.com/user-attachments/assets/e313df96-91bd-4ea8-985e-37a60d93a224)
 
 ### 🔄 Transformación en Power BI
-
 Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para iniciar el proceso de limpieza y transformación.
 
 ### 🗒️ TABLA COMERCIOS
@@ -82,7 +81,8 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
   - Corrección de formato de valores en `sucursales_tipo`, `sucursales_localidad`
 - Reemplazo de valores: 
   - `sucursales_provincia`
-- Corrección y normalización de horarios:
+  
+### 🐍 Python: Corrección y normalización de horarios
   - Las celdas con horarios tienen diferentes formatos y rangos que no permiten su correcta segmentación.
 
   ![limpiar_horarios](https://github.com/user-attachments/assets/a1b27cb5-6f54-4c24-906a-c259d14aa667)
@@ -109,6 +109,8 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
 
 #### 🔧 Tratamiento inicial:
 - Separación manual de archivos por lotes para tratamiento idividual
+
+### 🐍 Python: Filtrado y Unificación
 - Se utiliza Google Colab + Python + Google Drive para identificar y unificar archivos csv con la cantidad de columnas correctas.
 
 ![unificar](https://github.com/user-attachments/assets/3ca91ebc-70b5-4861-96bc-85e16f5a8ebe)
@@ -138,10 +140,11 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
  
 ⚠️ Las columnas: `id_producto`,`productos_descripcion`,`productos_cantidad_presentacion`,	`productos_unidad_medida_presentacion`y `productos_marca` serán parte de la estructura de una nueva **Tabla Productos**.
 
-![limpieza_y_segmentacion](https://github.com/user-attachments/assets/c183c8a4-a238-452a-9efb-f224c1c2d35b)
-
+### 🐍 Python: Limpieza y Segmentación
 - Unificación de archivos csv en carpeta Productos y carpeta CatálogoComercial después de la primer etapa de limpieza.
 - Eliminación de duplicados y reporte de estado final de las tablas.
+
+![limpieza_y_segmentacion](https://github.com/user-attachments/assets/c183c8a4-a238-452a-9efb-f224c1c2d35b)
 
 ![eliminar_duplicados](https://github.com/user-attachments/assets/dd6dc25a-00ac-4f0f-965d-1f541ba1a43f)
 
@@ -154,3 +157,7 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
 - **Tabla:** CatalálogoComercial
 - **Filas:** 13.829.327
 - **Columnas:** 12
+
+---
+
+## 🛠️ Fase 3: Visualización en Power BI
