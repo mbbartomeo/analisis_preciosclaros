@@ -74,8 +74,6 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
   - `sucursales_observaciones`
   - `sucursales_barrio`
   - `sucursales_codigo_postal`
-  - `sucursal_lat`
-  - `sucursal_long`
 - Normalización de texto:
   - Corrección de formato de valores en `sucursales_tipo`, `sucursales_localidad`.
 - Reemplazo de valores: 
@@ -94,7 +92,13 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
 ![calcular_categorizar_jornadas](https://github.com/user-attachments/assets/6b163e23-614d-411e-a2c7-669ee58ce246)
 
 - Eliminación de duplicados.
-- Aplicación de función unpivot en columnas de día de semana con jornadas, se crean columnas `sucursal_dia_atencion`, `sucursal_jornada`. 
+
+### 🔄 Transformación en Power BI
+- Aplicación de función unpivot en columnas de día de semana con jornadas, se crean columnas: `sucursal_dia_atencion`, `sucursal_jornada`.
+- Eliminación de columnas: `sucursal_lat`, `sucursal_long` por ingreso erróneo de valores.
+- Creación de Tablas de Entorno:
+  - **Provincias**: Presenta latitud y longitud de cada provincia para la correcta ubicación en gráficos.
+  - **Medidas**: Presenta medidas relevantes para próximo análisis.
  
 #### ✅ Resultado final: 
 - **Filas:** 21.826
