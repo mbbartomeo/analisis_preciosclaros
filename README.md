@@ -1,8 +1,12 @@
 # 🛰️ Proyecto: Análisis de Precios Claros
 
 ## 📌 Objetivo
-Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA*, con el fin de practicar recolección, limpieza, transformación y visualización de datos a gran escala, utilizando herramientas como Python y Power BI.
-
+Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA*, con el fin de practicar recolección, limpieza, transformación y visualización de datos a gran escala, utilizando las siguientes herramientas:
+- ChatGPT, código Python para transformaciones robustas.
+- Python, proceso ETL.
+- Google Sheets, transformaciones menores de tablas.
+- Power BI, transformaciones finales y visualización de datos.
+    
 ---
 
 ## 📦 Fase 1: Recolección de Datos
@@ -12,7 +16,7 @@ Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA*, con
 - **Institución:** Secretaría de Comercio Interior (Argentina)  
 - **Descripción:** Sistema Electrónico de Publicidad de Precios Argentinos. Reúne información diaria de más de 70.000 productos en grandes comercios del país.  
 - **Frecuencia:** Diaria  
-- **Volumen estimado:** ~12 millones de registros por día  
+- **Volumen estimado:** ~80 millones de registros totales
 - **Licencia:** [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/)  
 - **Acceso al dataset:** [Portal de Datos Abiertos](https://datos.produccion.gob.ar/dataset/sepa-precios)
 
