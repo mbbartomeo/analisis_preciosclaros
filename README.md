@@ -1,7 +1,7 @@
 # 🛰️ Proyecto: Análisis de Precios Claros
 
 ## 📌 Objetivo
-Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA*, con el fin de practicar recolección, limpieza, transformación y visualización de datos a gran escala, utilizando las siguientes herramientas:
+Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA* (Agosto 2024 - Junio 2025), con el fin de practicar recolección, limpieza, transformación y visualización de datos a gran escala, utilizando las siguientes herramientas:
 - ChatGPT, código Python para transformaciones robustas.
 - Python, proceso ETL.
 - Google Sheets, transformaciones menores de tablas.
