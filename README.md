@@ -31,7 +31,7 @@ Análisis exploratorio autodidacta del dataset *Precios Claros - Base SEPA*, con
 
 ---
 
-### 🐍 Python: Renombrado y Unificación
+### 🐍 Renombrado y Unificación
 
 Para facilitar el posterior análisis, se desarrolló un script en Python que copia y renombra todos los archivos agregando prefijos con el día y la fecha, evitando colisiones por nombres duplicados:
 
@@ -74,15 +74,14 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
   - `sucursales_observaciones`
   - `sucursales_barrio`
   - `sucursales_codigo_postal`
-- Normalización de valores con notación científica:
   - `sucursal_lat`
   - `sucursal_long`
 - Normalización de texto:
-  - Corrección de formato de valores en `sucursales_tipo`, `sucursales_localidad`
+  - Corrección de formato de valores en `sucursales_tipo`, `sucursales_localidad`.
 - Reemplazo de valores: 
   - `sucursales_provincia`
   
-### 🐍 Python: Corrección y normalización de horarios
+### 🐍 Corrección y normalización de horarios
   - Las celdas con horarios tienen diferentes formatos y rangos que no permiten su correcta segmentación.
 
   ![limpiar_horarios](https://github.com/user-attachments/assets/a1b27cb5-6f54-4c24-906a-c259d14aa667)
@@ -94,11 +93,12 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
 
 ![calcular_categorizar_jornadas](https://github.com/user-attachments/assets/6b163e23-614d-411e-a2c7-669ee58ce246)
 
-- Eliminación de duplicados
+- Eliminación de duplicados.
+- Aplicación de función unpivot en columnas de día de semana con jornadas, se crean columnas `sucursal_dia_atencion`, `sucursal_jornada`. 
  
 #### ✅ Resultado final: 
-- **Filas:** 3.118 
-- **Columnas:** 14
+- **Filas:** 21.826
+- **Columnas:** 7
 
 ### 🗒️ TABLA PRODUCTOS
 #### 🧹 Datos iniciales: 
@@ -110,7 +110,7 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
 #### 🔧 Tratamiento inicial:
 - Separación manual de archivos por lotes para tratamiento idividual
 
-### 🐍 Python: Filtrado y Unificación
+### 🐍 Filtrado y Unificación
 - Se utiliza Google Colab + Python + Google Drive para identificar y unificar archivos csv con la cantidad de columnas correctas.
 
 ![unificar](https://github.com/user-attachments/assets/3ca91ebc-70b5-4861-96bc-85e16f5a8ebe)
