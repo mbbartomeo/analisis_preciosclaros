@@ -39,7 +39,7 @@ Análisis exploratorio autodidacta del dataset **Precios Claros - Base SEPA (Ago
 
 Para facilitar el posterior análisis, se desarrolló un script en Python que copia y renombra todos los archivos agregando prefijos con el día y la fecha, evitando colisiones por nombres duplicados:
 
-![renombrar](https://github.com/user-attachments/assets/e313df96-91bd-4ea8-985e-37a60d93a224)
+<img width="1954" height="1204" alt="renombrar" src="https://github.com/user-attachments/assets/e5cb5505-601f-4765-955f-3522786f40c0" />
 
 ### 🔄 Transformación en Power BI
 Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para iniciar el proceso de limpieza y transformación.
@@ -86,14 +86,14 @@ Una vez unificados los archivos `.csv` renombrados, se cargan en Power BI para i
 ### 🐍 Corrección y normalización de horarios
   - Las celdas con horarios tienen diferentes formatos y rangos que no permiten su correcta segmentación.
 
-  ![limpiar_horarios](https://github.com/user-attachments/assets/a1b27cb5-6f54-4c24-906a-c259d14aa667)
+<img width="2036" height="4054" alt="limpiar_horarios" src="https://github.com/user-attachments/assets/5756e184-5476-4b0c-b555-23fd668884f9" />
   
   - Los horarios limpios se categorizan según la cantidad de horas trabajadas:
     - Jornada Normal: ≤ 8 hs 
     - Jornada Doble: > 8 hs y ≤ 11 hs
     - Jornada Extendida: > 11 hs
 
-![calcular_categorizar_jornadas](https://github.com/user-attachments/assets/6b163e23-614d-411e-a2c7-669ee58ce246)
+<img width="2692" height="2496" alt="calcular_categorizar_jornadas" src="https://github.com/user-attachments/assets/b5383762-2d8f-4bf5-9cdc-f639c52b2714" />
 
 - Eliminación de duplicados.
 
@@ -121,9 +121,7 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
 ### 🐍 Filtrado y Unificación
 - Se utiliza Google Colab + Python + Google Drive para identificar y unificar archivos csv con la cantidad de columnas correctas.
 
-![unificar](https://github.com/user-attachments/assets/3ca91ebc-70b5-4861-96bc-85e16f5a8ebe)
-
-![image](https://github.com/user-attachments/assets/3a9e0fa5-0ae6-48ad-8c51-ce74f24777ee)
+<img width="2134" height="2382" alt="unificar" src="https://github.com/user-attachments/assets/989dc03f-5984-4dd9-a72a-e4c172901839" />
 
 ⚠️ La estructura de la tabla **Productos** funciona como catálogo de los comercios/sucursales. Necesita atomización de datos para facilitar su mantenimiento, escalado y consumo de memoria.
 
@@ -150,13 +148,12 @@ Los archivos csv presentan un peso aproximado de 8GB, no son fácilmente tratabl
 
 ### 🐍 Python: Limpieza y Segmentación
 - Unificación de archivos csv en carpeta Productos y carpeta CatálogoComercial después de la primer etapa de limpieza.
+
+<img width="2134" height="2648" alt="limpieza_y_segmentacion" src="https://github.com/user-attachments/assets/c82d90ef-a528-4c67-9224-571890aeb431" />
+
 - Eliminación de duplicados y reporte de estado final de las tablas.
 
-![limpieza_y_segmentacion](https://github.com/user-attachments/assets/c183c8a4-a238-452a-9efb-f224c1c2d35b)
-
-![eliminar_duplicados](https://github.com/user-attachments/assets/dd6dc25a-00ac-4f0f-965d-1f541ba1a43f)
-
-![image](https://github.com/user-attachments/assets/b8dfe7da-b9b5-487e-9676-8b0000421a10)
+<img width="1788" height="2268" alt="eliminar_duplicados" src="https://github.com/user-attachments/assets/c0a0125e-8845-4e99-bc43-adebc88fd219" />
 
 #### ✅ Resultado final: 
 - **Tabla:** Productos
